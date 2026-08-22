@@ -5,6 +5,7 @@ import {
 } from "motion/react"
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback"
 import logo from "@/imports/trelantis-mark.png"
+import logoDark from "@/imports/trelantis-logo-dark.png"
 import {
   FileText, File, MessageSquare, ArrowRight, Check, Menu, X,
   Sparkles, Command, CalendarCheck, Users, Scale,
@@ -658,7 +659,7 @@ function Hero() {
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.24, ease: EASE }}
           className="hero-sub"
-          style={{ fontSize: "clamp(14px, 3.6vw, 18px)", color: "var(--slate)", lineHeight: 1.6, marginTop: 24, textAlign: "center", padding: "0 8px" }}>
+          style={{ fontSize: "clamp(14px, 3.6vw, 18px)", color: "var(--graphite)", lineHeight: 1.6, marginTop: 24, textAlign: "center", padding: "0 8px" }}>
           A structured view of where risk sits and where to build resilience into the terms.
         </motion.p>
 
@@ -1544,10 +1545,7 @@ function Footer() {
     <footer style={{ background: "var(--surface-dark)", padding: "48px 0 40px", borderTop: "1px solid rgba(255,255,255,0.06)", position: "relative", overflow: "hidden" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <ImageWithFallback src={logo} alt="Trelantis" style={{ height: 28, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }} />
-            <span style={{ fontSize: 17, fontWeight: 600, color: "#fff", letterSpacing: "-0.01em" }}>Trelantis</span>
-          </div>
+          <ImageWithFallback src={logoDark} alt="Trelantis" style={{ height: 32, width: "auto", objectFit: "contain" }} />
           <span style={{ fontSize: 13, color: "rgba(255,255,255,0.34)" }}>Commercial reasoning for professional services.</span>
         </div>
         <span style={{ fontSize: 12.5, color: "rgba(255,255,255,0.3)" }}>© 2026 Trelantis · Built in Fulcrum Startup Labs</span>
