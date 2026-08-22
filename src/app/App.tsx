@@ -1403,8 +1403,8 @@ function CTABand() {
         email: form.email,
         message: form.message,
       })
-      const res = await fetch("/form-submit.html", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
-      if (!res.ok && res.status !== 303 && res.status !== 302) throw new Error("submit failed")
+      const res = await fetch("/.netlify/functions/contact", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
+      if (!res.ok) throw new Error("submit failed")
       setDone(true)
     } catch {
       toast.error("Something went wrong. Please try again.")
