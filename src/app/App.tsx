@@ -11,6 +11,7 @@ import {
   Mail, Package, TrendingUp,
 } from "lucide-react"
 import { Toaster, toast } from "sonner"
+import { useIsMobile } from "@/app/components/ui/use-mobile"
 
 // ─── motion tokens (Emil Kowalski-style: fast, confident, purposeful) ─────────
 const EASE      = [0.32, 0.72, 0, 1] as const   // signature ease-out
@@ -415,12 +416,14 @@ function HeroPanelCanvas() {
 }
 
 function HeroPanel() {
+  const mobile = useIsMobile()
   const rows = [
     { n: 1, title: "Fee cap exposure under variable scope",     body: "Framework cap may be insufficient given the open-ended deliverable schedule in Schedule 3.", tag: "COMMERCIAL", amber: true,  active: true  },
     { n: 2, title: "Delivery dependency on client data access", body: "Timeline obligations assume Day 1 data room access; no cure mechanism if client delays.",    tag: "STRUCTURAL", amber: false, active: false },
     { n: 3, title: "Cross-service obligation conflict",         body: "Advisory obligations in clause 7.2 conflict with limitation language in Annex B.",           tag: "COMMERCIAL", amber: true,  active: false },
     { n: 4, title: "Staffing substitution restrictions",        body: "Named-individual clause limits substitution with 14-day notice requirement.",                 tag: "STRUCTURAL", amber: false, active: false },
   ]
+  const visibleRows = mobile ? rows.slice(0, 2) : rows
 
   const matters = [
     { name: "Pearson Hardman · Strategic Advisory", active: true,  dot: "var(--ink)"   },
@@ -441,37 +444,39 @@ function HeroPanel() {
         <HeroPanelCanvas />
 
         {/* window chrome */}
-        <div style={{ position: "relative", zIndex: 1, height: 44, background: "rgba(247,248,250,0.92)", backdropFilter: "blur(8px)", borderBottom: "1px solid var(--hairline)", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 16px", gap: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div style={{ display: "flex", gap: 5 }}>
-              {["#FF5F57","#FEBC2E","#28C840"].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />)}
+        <div style={{ position: "relative", zIndex: 1, height: mobile ? 36 : 44, background: "rgba(247,248,250,0.92)", backdropFilter: "blur(8px)", borderBottom: "1px solid var(--hairline)", display: "flex", alignItems: "center", justifyContent: "space-between", padding: mobile ? "0 10px" : "0 16px", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, minWidth: 0 }}>
+            <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
+              {["#FF5F57","#FEBC2E","#28C840"].map(c => <div key={c} style={{ width: mobile ? 7 : 10, height: mobile ? 7 : 10, borderRadius: "50%", background: c }} />)}
             </div>
-            <MonoLabel style={{ color: "var(--mist)", fontSize: 10 }}>Pearson Hardman · Strategic Advisory</MonoLabel>
+            {!mobile && <MonoLabel style={{ color: "var(--mist)", fontSize: 10 }}>Pearson Hardman · Strategic Advisory</MonoLabel>}
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "dpulse 1.8s ease-in-out infinite" }} />
-              <span style={{ fontSize: 11, color: "var(--mist)" }}>Analysis complete</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#22c55e", animation: "dpulse 1.8s ease-in-out infinite" }} />
+              {!mobile && <span style={{ fontSize: 11, color: "var(--mist)" }}>Analysis complete</span>}
             </div>
-            <span className="mono" style={{ fontSize: 11, color: "var(--amber)", background: "rgba(227,175,101,0.14)", border: "1px solid rgba(227,175,101,0.28)", borderRadius: 999, padding: "3px 10px" }}>5 findings</span>
-          </div>
-        </div>
-
-        {/* AI omnibox */}
-        <div style={{ position: "relative", zIndex: 1, padding: "10px 16px", background: "rgba(255,255,255,0.6)", backdropFilter: "blur(6px)", borderBottom: "1px solid var(--hairline)" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, background: "#fff", border: "1px solid var(--hairline)", borderRadius: 10, padding: "8px 12px", boxShadow: "var(--shadow-card)" }}>
-            <Sparkles size={14} style={{ color: "var(--amber)", flexShrink: 0 }} />
-            <span style={{ fontSize: 12.5, color: "var(--mist)" }}>Ask about this engagement</span>
-            <span style={{ width: 1.5, height: 13, background: "var(--ink)", animation: "caret 1s step-start infinite", marginLeft: -4 }} />
-            <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 4 }}>
-              <span className="mono" style={{ display: "inline-flex", alignItems: "center", gap: 3, fontSize: 10, color: "var(--mist)", background: "var(--surface-subtle)", border: "1px solid var(--hairline)", borderRadius: 6, padding: "2px 6px" }}>
-                <Command size={9} /> K
-              </span>
-            </div>
+            <span className="mono" style={{ fontSize: mobile ? 9 : 11, color: "var(--amber)", background: "rgba(227,175,101,0.14)", border: "1px solid rgba(227,175,101,0.28)", borderRadius: 999, padding: "2px 8px" }}>5 findings</span>
           </div>
         </div>
 
-        <div style={{ display: "flex", minHeight: 300, position: "relative", zIndex: 1 }}>
+        {/* AI omnibox — hidden on mobile */}
+        {!mobile && (
+          <div style={{ position: "relative", zIndex: 1, padding: "10px 16px", background: "rgba(255,255,255,0.6)", backdropFilter: "blur(6px)", borderBottom: "1px solid var(--hairline)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, background: "#fff", border: "1px solid var(--hairline)", borderRadius: 10, padding: "8px 12px", boxShadow: "var(--shadow-card)" }}>
+              <Sparkles size={14} style={{ color: "var(--amber)", flexShrink: 0 }} />
+              <span style={{ fontSize: 12.5, color: "var(--mist)" }}>Ask about this engagement</span>
+              <span style={{ width: 1.5, height: 13, background: "var(--ink)", animation: "caret 1s step-start infinite", marginLeft: -4 }} />
+              <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 4 }}>
+                <span className="mono" style={{ display: "inline-flex", alignItems: "center", gap: 3, fontSize: 10, color: "var(--mist)", background: "var(--surface-subtle)", border: "1px solid var(--hairline)", borderRadius: 6, padding: "2px 6px" }}>
+                  <Command size={9} /> K
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div style={{ display: "flex", minHeight: mobile ? 180 : 300, position: "relative", zIndex: 1 }}>
           <div className="hidden md:flex flex-col" style={{ width: 190, background: "rgba(247,248,250,0.85)", backdropFilter: "blur(6px)", borderRight: "1px solid var(--hairline)", flexShrink: 0 }}>
             <MonoLabel style={{ color: "var(--mist)", padding: "14px 14px 8px", display: "block" }}>Matters</MonoLabel>
             {matters.map((m, i) => (
@@ -482,24 +487,24 @@ function HeroPanel() {
             ))}
           </div>
 
-          <div style={{ flex: 1, padding: 18, background: "rgba(255,255,255,0.82)", backdropFilter: "blur(4px)" }}>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 16 }}>
-              <span style={{ fontSize: 15, fontWeight: 600, color: "var(--graphite)" }}>Commercial Considerations</span>
-              <span style={{ fontSize: 12, color: "var(--mist)" }}>5 identified · ranked by exposure</span>
+          <div style={{ flex: 1, padding: mobile ? 12 : 18, background: "rgba(255,255,255,0.82)", backdropFilter: "blur(4px)" }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: mobile ? 10 : 16, flexWrap: "wrap" }}>
+              <span style={{ fontSize: mobile ? 13 : 15, fontWeight: 600, color: "var(--graphite)" }}>Commercial Considerations</span>
+              <span style={{ fontSize: mobile ? 10 : 12, color: "var(--mist)" }}>5 identified · ranked by exposure</span>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {rows.map(row => (
+            <div style={{ display: "flex", flexDirection: "column", gap: mobile ? 6 : 10 }}>
+              {visibleRows.map(row => (
                 <motion.div key={row.n}
                   animate={row.active ? { boxShadow: ["0 0 0 0px rgba(227,175,101,0)", "0 0 0 3px rgba(227,175,101,0.28)", "0 0 0 0px rgba(227,175,101,0)"] } : {}}
                   transition={row.active ? { duration: 2.6, repeat: Infinity, ease: "easeInOut" } : {}}
-                  style={{ border: `1px solid ${row.active ? "rgba(227,175,101,0.5)" : "var(--hairline)"}`, borderRadius: 12, padding: "12px 16px", background: row.active ? "rgba(227,175,101,0.07)" : "#fff", boxShadow: "var(--shadow-card)" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    <div className="mono" style={{ width: 20, height: 20, borderRadius: 999, background: "var(--ink)", color: "#fff", fontSize: 10, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{row.n}</div>
+                  style={{ border: `1px solid ${row.active ? "rgba(227,175,101,0.5)" : "var(--hairline)"}`, borderRadius: mobile ? 8 : 12, padding: mobile ? "8px 10px" : "12px 16px", background: row.active ? "rgba(227,175,101,0.07)" : "#fff", boxShadow: "var(--shadow-card)" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: mobile ? 8 : 12 }}>
+                    <div className="mono" style={{ width: mobile ? 16 : 20, height: mobile ? 16 : 20, borderRadius: 999, background: "var(--ink)", color: "#fff", fontSize: mobile ? 8 : 10, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{row.n}</div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: "var(--graphite)" }}>{row.title}</div>
-                      <div style={{ fontSize: 11, color: "var(--slate)", marginTop: 2, lineHeight: 1.5 }}>{row.body}</div>
+                      <div style={{ fontSize: mobile ? 11 : 13, fontWeight: 600, color: "var(--graphite)" }}>{row.title}</div>
+                      {!mobile && <div style={{ fontSize: 11, color: "var(--slate)", marginTop: 2, lineHeight: 1.5 }}>{row.body}</div>}
                     </div>
-                    <MonoLabel style={{ fontSize: 10, borderRadius: 999, padding: "2px 8px", background: row.amber ? "rgba(227,175,101,0.14)" : "rgba(42,43,124,0.07)", color: row.amber ? "var(--amber)" : "var(--ink)", flexShrink: 0 }}>{row.tag}</MonoLabel>
+                    <MonoLabel style={{ fontSize: mobile ? 8 : 10, borderRadius: 999, padding: "2px 6px", background: row.amber ? "rgba(227,175,101,0.14)" : "rgba(42,43,124,0.07)", color: row.amber ? "var(--amber)" : "var(--ink)", flexShrink: 0 }}>{row.tag}</MonoLabel>
                   </div>
                 </motion.div>
               ))}
@@ -570,7 +575,7 @@ function HeroPanel() {
 
 function Hero() {
   return (
-    <section id="hero" style={{ position: "relative", minHeight: "94vh", paddingTop: 184, paddingBottom: 80, background: "#fff", overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <section id="hero" style={{ position: "relative", minHeight: "94vh", paddingTop: "clamp(120px, 20vw, 184px)", paddingBottom: "clamp(40px, 8vw, 80px)", background: "#fff", overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
         <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.26 }}>
           <defs><pattern id="hdots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.8" fill="#2A2B7C" /></pattern></defs>
@@ -600,7 +605,7 @@ function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.24, ease: EASE }}
-          style={{ fontSize: 18, color: "var(--slate)", lineHeight: 1.6, marginTop: 24, textAlign: "center", whiteSpace: "nowrap", maxWidth: "100%" }}>
+          style={{ fontSize: "clamp(15px, 3.8vw, 18px)", color: "var(--slate)", lineHeight: 1.6, marginTop: 24, textAlign: "center", maxWidth: 560, padding: "0 8px" }}>
           A structured view of where risk sits and where to build resilience into the terms.
         </motion.p>
 
@@ -647,6 +652,17 @@ function HowItWorks() {
       <AmbientGlow variant="light" />
       <DotGrid opacity={0.35} />
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative", zIndex: 1 }}>
+        {/* Mobile heading */}
+        <div className="lg:hidden" style={{ marginBottom: 40 }}>
+          <Eyebrow index="02">The Product</Eyebrow>
+          <h2 style={{ fontSize: "clamp(30px,5vw,42px)", fontWeight: 600, color: "var(--graphite)", letterSpacing: "-0.03em", lineHeight: 1.05 }}>
+            From documents to <span style={{ color: "var(--amber)" }}>decision</span>.
+          </h2>
+          <p style={{ fontSize: 15, color: "var(--slate)", lineHeight: 1.65, marginTop: 14 }}>
+            It works across the whole engagement to show where resilience matters most.
+          </p>
+        </div>
+
         <div style={{ display: "flex", gap: 64, flexWrap: "wrap" }}>
           <div className="hidden lg:block" style={{ width: "38%", position: "sticky", top: 104, alignSelf: "flex-start" }}>
             <Eyebrow index="02">The Product</Eyebrow>
@@ -896,10 +912,12 @@ function FeaturesBento() {
     { C: CardExport,        label: "Exports the briefing"       },
   ]
 
+  const mobile = useIsMobile()
   const secRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: secRef, offset: ["start start", "end end"] })
   const [active, setActive] = useState(0)
   useMotionValueEvent(scrollYProgress, "change", (v) => {
+    if (mobile) return
     const idx = Math.max(0, Math.min(FEATURES.length - 1, Math.floor(v * FEATURES.length)))
     setActive(idx)
   })
@@ -912,6 +930,35 @@ function FeaturesBento() {
   }
 
   const Active = FEATURES[active].C
+
+  if (mobile) {
+    return (
+      <section id="platform" style={{ background: "var(--surface)", padding: "80px 0", position: "relative", overflow: "hidden" }}>
+        <AmbientGlow variant="light" />
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative", zIndex: 1 }}>
+          <FadeUp>
+            <Eyebrow>What we offer</Eyebrow>
+            <h2 style={{ fontSize: "clamp(28px,5.5vw,44px)", fontWeight: 600, color: "var(--graphite)", letterSpacing: "-0.025em", lineHeight: 1.08 }}>
+              Every engagement, checked before you sign.
+            </h2>
+            <p style={{ fontSize: 15, color: "var(--slate)", marginTop: 14, lineHeight: 1.65 }}>
+              Trelantis reads the whole obligation stack and connects what other tools read one document at a time.
+            </p>
+          </FadeUp>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20, marginTop: 36 }}>
+            {FEATURES.map((f, i) => {
+              const Card = f.C
+              return (
+                <FadeUp key={i} delay={i * 0.08}>
+                  <Card />
+                </FadeUp>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section id="platform" ref={secRef} style={{ position: "relative", height: `${FEATURES.length * 85}vh`, background: "var(--surface)" }}>
