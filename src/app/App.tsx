@@ -463,7 +463,7 @@ function HeroPanel() {
               <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#22c55e", animation: "dpulse 1.8s ease-in-out infinite" }} />
               {!mobile && <span style={{ fontSize: 11, color: "var(--mist)" }}>Analysis complete</span>}
             </div>
-            <span className="mono" style={{ fontSize: mobile ? 9 : 11, color: "var(--amber)", background: "rgba(227,175,101,0.14)", border: "1px solid rgba(227,175,101,0.28)", borderRadius: 999, padding: "2px 8px" }}>5 findings</span>
+            <span className="mono" style={{ fontSize: mobile ? 9 : 11, color: "#7c5a1e", background: "rgba(227,175,101,0.14)", border: "1px solid rgba(227,175,101,0.28)", borderRadius: 999, padding: "2px 8px" }}>5 findings</span>
           </div>
         </div>
 
@@ -511,7 +511,7 @@ function HeroPanel() {
                       <div style={{ fontSize: mobile ? 11 : 13, fontWeight: 600, color: "var(--graphite)" }}>{row.title}</div>
                       {!mobile && <div style={{ fontSize: 11, color: "var(--slate)", marginTop: 2, lineHeight: 1.5 }}>{row.body}</div>}
                     </div>
-                    <MonoLabel style={{ fontSize: mobile ? 8 : 10, borderRadius: 999, padding: "2px 6px", background: row.amber ? "rgba(227,175,101,0.14)" : "rgba(42,43,124,0.07)", color: row.amber ? "var(--amber)" : "var(--ink)", flexShrink: 0 }}>{row.tag}</MonoLabel>
+                    <MonoLabel style={{ fontSize: mobile ? 8 : 10, borderRadius: 999, padding: "2px 6px", background: row.amber ? "rgba(227,175,101,0.14)" : "rgba(42,43,124,0.07)", color: row.amber ? "#7c5a1e" : "var(--ink)", flexShrink: 0 }}>{row.tag}</MonoLabel>
                   </div>
                 </motion.div>
               ))}
@@ -914,7 +914,7 @@ function CardSourceTracing() {
             </svg>
             <div style={{ background: "#fff", border: "1px solid var(--hairline)", borderRadius: 7, padding: "8px 12px", flex: 1 }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: "var(--graphite)" }}>Fee cap exposure</div>
-              <MonoLabel style={{ fontSize: 10, background: "rgba(227,175,101,0.14)", color: "var(--amber)", borderRadius: 999, padding: "2px 7px", display: "inline-block", marginTop: 4 }}>COMMERCIAL</MonoLabel>
+              <MonoLabel style={{ fontSize: 10, background: "rgba(227,175,101,0.14)", color: "#7c5a1e", borderRadius: 999, padding: "2px 7px", display: "inline-block", marginTop: 4 }}>COMMERCIAL</MonoLabel>
             </div>
           </div>
         </div>
@@ -1177,7 +1177,7 @@ function BeforeAfter() {
               {/* briefing header */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 18px", background: "var(--surface-subtle)", borderBottom: "1px solid var(--hairline)", flexShrink: 0 }}>
                 <span style={{ fontSize: 13.5, fontWeight: 600, color: "var(--graphite)" }}>Commercial Commitment Briefing</span>
-                <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--amber)", background: "rgba(227,175,101,0.14)", border: "1px solid rgba(227,175,101,0.3)", borderRadius: 999, padding: "3px 10px" }}>5 findings</span>
+                <span style={{ fontSize: 11.5, fontWeight: 600, color: "#7c5a1e", background: "rgba(227,175,101,0.14)", border: "1px solid rgba(227,175,101,0.3)", borderRadius: 999, padding: "3px 10px" }}>5 findings</span>
               </div>
 
               {/* finding rows fill the card */}
