@@ -289,8 +289,8 @@ function Nav() {
               style={{ width: "auto", objectFit: "contain", display: "block" }} />
           </a>
 
-          {/* Desktop links */}
-          <div className="hidden md:flex" style={{ alignItems: "center", gap: 34 }}>
+          {/* Desktop links — absolute center */}
+          <div className="hidden md:flex" style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", alignItems: "center", gap: 34 }}>
             {links.map(l => (
               <a key={l.label} href={`#${l.id}`} className="link-underline"
                 onClick={e => { e.preventDefault(); scrollTo(l.id) }}
@@ -305,7 +305,7 @@ function Nav() {
           {/* Desktop CTAs */}
           <div className="hidden md:flex" style={{ alignItems: "center", gap: 10 }}>
             <motion.button
-              onClick={() => toast("Sign in is coming soon.", { description: "Request early access below to be first in line." })}
+              onClick={() => toast("Sign in is coming soon.", { description: "Request early access below to be first in line.", duration: 5000 })}
               style={{ background: "rgba(42,43,124,0.00)", border: "1px solid var(--hairline)", color: "var(--graphite)", fontSize: 14, fontWeight: 500, padding: "7px 16px", borderRadius: 999, cursor: "pointer" }}
               whileHover={btnHover.ghost as any} whileTap={{ scale: 0.97 }} transition={SPRING}>
               Sign in
@@ -351,7 +351,7 @@ function Nav() {
               ))}
               <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 24 }}>
                 <button
-                  onClick={() => { setMobileOpen(false); toast("Sign in is coming soon.", { description: "Request early access below to be first in line." }) }}
+                  onClick={() => { setMobileOpen(false); toast("Sign in is coming soon.", { description: "Request early access below to be first in line.", duration: 5000 }) }}
                   style={{ background: "rgba(42,43,124,0.00)", border: "1px solid var(--hairline)", color: "var(--graphite)", fontSize: 15, fontWeight: 500, padding: "12px", borderRadius: 999, cursor: "pointer" }}>
                   Sign in
                 </button>
@@ -1381,8 +1381,7 @@ function CTABand() {
         email: form.email,
         message: form.message,
       })
-      const res = await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
-      if (res.status === 404) throw new Error("Form not registered — redeploy with cleared cache")
+      const res = await fetch("/form-submit.html", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
       if (!res.ok && res.status !== 303 && res.status !== 302) throw new Error("submit failed")
       setDone(true)
     } catch {
