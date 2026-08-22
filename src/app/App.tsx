@@ -222,8 +222,8 @@ function CyclingHeadline({ fontSize }: { fontSize: string }) {
           <span style={{ fontStyle: "normal", fontWeight: 300, color: "var(--amber)", animation: "blink 0.75s step-start infinite", display: "inline-block", marginLeft: 2, opacity: 1 }}>|</span>
         )}
       </span>
-      {/* Line 2 — always static */}
-      <span style={{ display: "block", fontSize, fontWeight: 600, letterSpacing: "-0.045em", lineHeight: 1.02, color: "var(--graphite)" }}>
+      {/* Line 2 — always static, one step smaller */}
+      <span style={{ display: "block", fontSize: `calc(${fontSize} * 0.72)`, fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--graphite)", marginTop: 6 }}>
         before every commitment.
       </span>
     </span>
