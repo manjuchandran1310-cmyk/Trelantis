@@ -1297,9 +1297,23 @@ function CTABand() {
     fontFamily: "'Geist', sans-serif",
   } as React.CSSProperties
 
+  const isWorkEmail = (email: string) => {
+    const personal = ["gmail.com","yahoo.com","yahoo.co.in","hotmail.com","outlook.com","live.com","aol.com","icloud.com","me.com","mail.com","protonmail.com","proton.me","ymail.com","gmx.com","zoho.com","rediffmail.com"]
+    const domain = email.split("@")[1]?.toLowerCase()
+    return domain && !personal.includes(domain)
+  }
+
   const handleSubmit = async () => {
     if (!form.name || !form.email) {
       toast.error("Please fill in your name and email.")
+      return
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      toast.error("Please enter a valid email address.")
+      return
+    }
+    if (!isWorkEmail(form.email)) {
+      toast.error("Please use your work email address.")
       return
     }
     setSubmitting(true)
