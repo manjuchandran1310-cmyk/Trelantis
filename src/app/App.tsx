@@ -1192,7 +1192,7 @@ function BeforeAfter() {
                       <div style={{ fontSize: 13.5, fontWeight: 600, color: "var(--graphite)", lineHeight: 1.3 }}>{f.title}</div>
                       <div style={{ fontSize: 11.5, color: "var(--slate)", marginTop: 2 }}>{f.sub}</div>
                     </div>
-                    <span className="mono" style={{ fontSize: 9.5, fontWeight: 500, letterSpacing: "0.06em", color: "var(--mist)", background: "var(--surface-subtle)", border: "1px solid var(--hairline)", borderRadius: 999, padding: "3px 9px", flexShrink: 0 }}>{f.tag}</span>
+                    <span className="mono" style={{ fontSize: 9.5, fontWeight: 500, letterSpacing: "0.06em", color: f.high ? "#7c5a1e" : "var(--ink)", background: f.high ? "rgba(227,175,101,0.14)" : "rgba(42,43,124,0.07)", border: `1px solid ${f.high ? "rgba(227,175,101,0.28)" : "var(--hairline)"}`, borderRadius: 999, padding: "3px 9px", flexShrink: 0 }}>{f.tag}</span>
                   </motion.div>
                 ))}
 
