@@ -76,7 +76,11 @@ const InjectStyles = () => (
     .form-input:focus { outline: none; border-color: var(--ink) !important; box-shadow: 0 0 0 3px rgba(42,43,124,0.08); }
 
     .hero-sub { white-space: nowrap; }
-    @media (max-width: 767px) { .hero-sub { white-space: normal; max-width: 320px; } }
+    @media (max-width: 767px) {
+      .hero-sub { white-space: normal; max-width: 320px; }
+      .hero-btns { flex-direction: column; width: 100%; max-width: 280px; margin-left: auto; margin-right: auto; }
+      .hero-btn { width: 100% !important; }
+    }
     @media (min-width: 768px) { .mob-only { display: none !important; } }
     .nav-logo { height: 30px; }
     @media (min-width: 768px) { .nav-logo { height: 38px; } }
@@ -518,6 +522,52 @@ function HeroPanel() {
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 80, background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.96))", pointerEvents: "none", borderRadius: "0 0 18px 18px" }} />
       </div>
 
+      {/* ── mobile highlight cards ── */}
+      {mobile && (
+        <div style={{ display: "flex", gap: 10, marginTop: 14, padding: "0 4px" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7, ease: EASE }}
+            style={{ flex: 1, background: "#fff", border: "1px solid rgba(42,43,124,0.12)", borderRadius: 12, boxShadow: "var(--shadow-card)", padding: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 10 }}>
+              <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--amber)" }} />
+              <MonoLabel style={{ color: "var(--mist)", fontSize: 8 }}>Ranked by exposure</MonoLabel>
+            </div>
+            {[
+              { label: "Fee cap",  v: 92, color: "#e5675f" },
+              { label: "Conflict", v: 74, color: "#e5675f" },
+              { label: "Delivery", v: 52, color: "var(--amber)" },
+              { label: "Staffing", v: 33, color: "#35b37e" },
+            ].map((b, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: i < 3 ? 7 : 0 }}>
+                <span style={{ width: 40, fontSize: 9, color: "var(--slate)", flexShrink: 0 }}>{b.label}</span>
+                <div style={{ flex: 1, height: 5, background: "var(--hairline)", borderRadius: 999, overflow: "hidden" }}>
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${b.v}%` }}
+                    transition={{ duration: 0.8, delay: 1 + i * 0.1, ease: EASE }}
+                    style={{ height: "100%", borderRadius: 999, background: b.color }} />
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.85, ease: EASE }}
+            style={{ flex: 1, background: "#fff", border: "1px solid rgba(227,175,101,0.4)", borderRadius: 12, boxShadow: "var(--shadow-card)", padding: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 8 }}>
+              <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--amber)" }} />
+              <MonoLabel style={{ color: "var(--mist)", fontSize: 8 }}>Source extract</MonoLabel>
+            </div>
+            <div style={{ fontFamily: "'Geist Mono',monospace", fontSize: 9, color: "var(--slate)", lineHeight: 1.7 }}>
+              "…shall not exceed the Cap Amount{" "}
+              <span style={{ background: "rgba(227,175,101,0.3)", borderRadius: 2, padding: "0 1px" }}>irrespective of the volume of instructions received</span>…"
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       {/* ── floating highlight cards (desktop only) ── */}
       <div className="hidden lg:block" style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 6 }}>
 
@@ -615,15 +665,17 @@ function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.33, ease: EASE }}
+          className="hero-btns"
           style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 38 }}>
           <motion.button onClick={() => scrollTo("contact")}
-            className="btn-shimmer"
-            style={{ color: "#fff", fontSize: 14, fontWeight: 600, padding: "13px 30px", borderRadius: 999, border: "none", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 8 }}
+            className="btn-shimmer hero-btn"
+            style={{ color: "#fff", fontSize: 14, fontWeight: 600, padding: "13px 28px", borderRadius: 999, border: "none", cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8 }}
             whileHover={{ boxShadow: "0 8px 24px rgba(42,43,124,0.28)" } as any} whileTap={{ scale: 0.97 }} transition={{ duration: 0.15 }}>
             Request Early Access <ArrowRight size={14} />
           </motion.button>
           <motion.button onClick={() => scrollTo("how-it-works")}
-            style={{ background: "rgba(42,43,124,0.00)", color: "var(--ink)", fontSize: 14, fontWeight: 500, padding: "13px 28px", borderRadius: 999, border: "1px solid rgba(42,43,124,0.28)", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}
+            className="hero-btn"
+            style={{ background: "rgba(42,43,124,0.00)", color: "var(--ink)", fontSize: 14, fontWeight: 500, padding: "13px 28px", borderRadius: 999, border: "1px solid rgba(42,43,124,0.28)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
             whileHover={{ background: "rgba(42,43,124,0.04)", borderColor: "var(--ink)" } as any}
             whileTap={{ scale: 0.97 }} transition={{ duration: 0.15 }}>
             See how it works <ArrowRight size={14} />
@@ -1323,13 +1375,15 @@ function CTABand() {
     try {
       const body = new URLSearchParams({
         "form-name": "contact",
+        "bot-field": "",
         name: form.name,
         firm: form.firm,
         email: form.email,
         message: form.message,
       })
       const res = await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
-      if (!res.ok) throw new Error("submit failed")
+      if (res.status === 404) throw new Error("Form not registered — redeploy with cleared cache")
+      if (!res.ok && res.status !== 303 && res.status !== 302) throw new Error("submit failed")
       setDone(true)
     } catch {
       toast.error("Something went wrong. Please try again.")
