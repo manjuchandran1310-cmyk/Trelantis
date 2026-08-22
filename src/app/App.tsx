@@ -1396,15 +1396,11 @@ function CTABand() {
     }
     setSubmitting(true)
     try {
-      const body = new URLSearchParams({
-        "form-name": "contact",
-        "bot-field": "",
-        name: form.name,
-        firm: form.firm,
-        email: form.email,
-        message: form.message,
+      const res = await fetch("https://formspree.io/f/xwlezwqy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ name: form.name, firm: form.firm, email: form.email, message: form.message }),
       })
-      const res = await fetch("/.netlify/functions/contact", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
       if (!res.ok) throw new Error("submit failed")
       setDone(true)
     } catch {
