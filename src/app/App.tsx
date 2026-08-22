@@ -1125,7 +1125,7 @@ function BeforeAfter() {
                   <span style={{ fontSize: 13.5, fontWeight: 600, color: "rgba(255,255,255,0.85)" }}>Inbox</span>
                   <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>· 12 threads</span>
                 </div>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(240,115,111,0.16)", color: RED, fontSize: 11.5, fontWeight: 600, borderRadius: 999, padding: "3px 10px" }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(240,115,111,0.16)", color: "#fcc8c6", fontSize: 11.5, fontWeight: 600, borderRadius: 999, padding: "3px 10px" }}>
                   <span style={{ width: 5, height: 5, borderRadius: "50%", background: RED, animation: "dpulse 1.6s ease-in-out infinite" }} />
                   47 unread
                 </span>
@@ -1143,7 +1143,7 @@ function BeforeAfter() {
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                         <span style={{ fontSize: 12.5, fontWeight: 600, color: "rgba(255,255,255,0.82)" }}>{e.from}</span>
                         {e.urgent && (
-                          <span className="mono" style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.06em", color: RED, background: "rgba(240,115,111,0.14)", border: `1px solid rgba(240,115,111,0.3)`, borderRadius: 4, padding: "1px 5px" }}>URGENT</span>
+                          <span className="mono" style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.06em", color: "#fcc8c6", background: "rgba(240,115,111,0.14)", border: `1px solid rgba(240,115,111,0.3)`, borderRadius: 4, padding: "1px 5px" }}>URGENT</span>
                         )}
                       </div>
                       <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginTop: 2 }}>{e.subject}</div>
@@ -1157,7 +1157,7 @@ function BeforeAfter() {
               <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 18px", background: "rgba(240,115,111,0.08)", flexShrink: 0 }}>
                 <motion.span animate={{ opacity: [1, 0.4, 1] }} transition={{ duration: 1.8, repeat: Infinity }}
                   style={{ width: 8, height: 8, borderRadius: "50%", background: RED, flexShrink: 0 }} />
-                <span style={{ fontSize: 12.5, color: "rgba(255,255,255,0.7)" }}>Engagement sign-off due <strong style={{ color: RED, fontWeight: 600 }}>today · 17:00</strong></span>
+                <span style={{ fontSize: 12.5, color: "rgba(255,255,255,0.7)" }}>Engagement sign-off due <strong style={{ color: "#f0736f", fontWeight: 600 }}>today · 17:00</strong></span>
               </div>
             </div>
 
