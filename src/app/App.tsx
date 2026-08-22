@@ -1226,6 +1226,7 @@ function BeforeAfter() {
 
 // ─── PRICING ─────────────────────────────────────────────────────────────────
 function Pricing() {
+  const mobile = useIsMobile()
   const principles = [
     { Icon: CalendarCheck, title: "Predictable",           body: "Firms can budget for Trelantis without a surprise bill when people actually use it." },
     { Icon: Users,         title: "Designed for adoption", body: "No partner should hesitate over cost before running an important engagement through it." },
@@ -1308,30 +1309,51 @@ function Pricing() {
               What to expect
             </h3>
           </FadeUp>
-          <div style={{ position: "relative", marginTop: 8 }}>
-            {/* connector line ties the three nodes together */}
-            <motion.div className="hidden md:block"
-              style={{ position: "absolute", top: 28, left: "16%", right: "16%", height: 2, background: "linear-gradient(90deg, transparent, var(--hairline) 20%, var(--hairline) 80%, transparent)", transformOrigin: "left" }}
-              initial={{ scaleX: 0, opacity: 0 }} whileInView={{ scaleX: 1, opacity: 1 }} viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: EASE }} />
-            <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 32, position: "relative" }}>
-              {expectations.map((e) => {
+
+          {mobile ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: 0, marginTop: 8 }}>
+              {expectations.map((e, i) => {
                 const Icon = e.Icon
                 return (
-                  <motion.div key={e.title} variants={stagItem}
-                    style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <motion.div
-                      whileHover={{ scale: 1.06 }} transition={SPRING}
-                      style={{ width: 56, height: 56, borderRadius: "50%", background: "#fff", border: "1px solid rgba(227,175,101,0.45)", boxShadow: "0 0 0 6px rgba(227,175,101,0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
-                      <Icon size={22} style={{ color: "var(--amber)" }} />
-                    </motion.div>
-                    <div style={{ fontSize: 16, fontWeight: 600, color: "var(--graphite)", letterSpacing: "-0.01em", marginBottom: 8, maxWidth: 240, lineHeight: 1.3 }}>{e.title}</div>
-                    <p style={{ fontSize: 13.5, color: "var(--slate)", lineHeight: 1.6, margin: 0, maxWidth: 260 }}>{e.body}</p>
-                  </motion.div>
+                  <FadeUp key={e.title}>
+                    <div style={{ display: "flex", gap: 14, padding: "18px 0", borderBottom: i < expectations.length - 1 ? "1px solid var(--hairline)" : "none" }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(227,175,101,0.1)", border: "1px solid rgba(227,175,101,0.25)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                        <Icon size={17} style={{ color: "var(--amber)" }} />
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 15, fontWeight: 600, color: "var(--graphite)", letterSpacing: "-0.01em", lineHeight: 1.3 }}>{e.title}</div>
+                        <p style={{ fontSize: 13, color: "var(--slate)", lineHeight: 1.55, margin: "5px 0 0" }}>{e.body}</p>
+                      </div>
+                    </div>
+                  </FadeUp>
                 )
               })}
-            </Stagger>
-          </div>
+            </div>
+          ) : (
+            <div style={{ position: "relative", marginTop: 8 }}>
+              <motion.div className="hidden md:block"
+                style={{ position: "absolute", top: 28, left: "16%", right: "16%", height: 2, background: "linear-gradient(90deg, transparent, var(--hairline) 20%, var(--hairline) 80%, transparent)", transformOrigin: "left" }}
+                initial={{ scaleX: 0, opacity: 0 }} whileInView={{ scaleX: 1, opacity: 1 }} viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: EASE }} />
+              <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 32, position: "relative" }}>
+                {expectations.map((e) => {
+                  const Icon = e.Icon
+                  return (
+                    <motion.div key={e.title} variants={stagItem}
+                      style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                      <motion.div
+                        whileHover={{ scale: 1.06 }} transition={SPRING}
+                        style={{ width: 56, height: 56, borderRadius: "50%", background: "#fff", border: "1px solid rgba(227,175,101,0.45)", boxShadow: "0 0 0 6px rgba(227,175,101,0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
+                        <Icon size={22} style={{ color: "var(--amber)" }} />
+                      </motion.div>
+                      <div style={{ fontSize: 16, fontWeight: 600, color: "var(--graphite)", letterSpacing: "-0.01em", marginBottom: 8, maxWidth: 240, lineHeight: 1.3 }}>{e.title}</div>
+                      <p style={{ fontSize: 13.5, color: "var(--slate)", lineHeight: 1.6, margin: 0, maxWidth: 260 }}>{e.body}</p>
+                    </motion.div>
+                  )
+                })}
+              </Stagger>
+            </div>
+          )}
         </div>
 
       </div>
@@ -1521,8 +1543,11 @@ function Footer() {
   return (
     <footer style={{ background: "var(--surface-dark)", padding: "48px 0 40px", borderTop: "1px solid rgba(255,255,255,0.06)", position: "relative", overflow: "hidden" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ fontSize: 17, fontWeight: 600, color: "#fff", letterSpacing: "-0.01em" }}>Trelantis</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <ImageWithFallback src={logo} alt="Trelantis" style={{ height: 28, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }} />
+            <span style={{ fontSize: 17, fontWeight: 600, color: "#fff", letterSpacing: "-0.01em" }}>Trelantis</span>
+          </div>
           <span style={{ fontSize: 13, color: "rgba(255,255,255,0.34)" }}>Commercial reasoning for professional services.</span>
         </div>
         <span style={{ fontSize: 12.5, color: "rgba(255,255,255,0.3)" }}>© 2026 Trelantis · Built in Fulcrum Startup Labs</span>
