@@ -10,6 +10,7 @@ import {
   Sparkles, Command, CalendarCheck, Users, Scale,
   Mail, Package, TrendingUp,
 } from "lucide-react"
+import { Toaster, toast } from "sonner"
 
 // ─── motion tokens (Emil Kowalski-style: fast, confident, purposeful) ─────────
 const EASE      = [0.32, 0.72, 0, 1] as const   // signature ease-out
@@ -297,6 +298,7 @@ function Nav() {
           {/* Desktop CTAs */}
           <div className="hidden md:flex" style={{ alignItems: "center", gap: 10 }}>
             <motion.button
+              onClick={() => toast("Sign in is coming soon.", { description: "Request early access below to be first in line." })}
               style={{ background: "rgba(42,43,124,0.00)", border: "1px solid var(--hairline)", color: "var(--graphite)", fontSize: 14, fontWeight: 500, padding: "7px 16px", borderRadius: 999, cursor: "pointer" }}
               whileHover={btnHover.ghost as any} whileTap={{ scale: 0.97 }} transition={SPRING}>
               Sign in
@@ -341,7 +343,9 @@ function Nav() {
                 </a>
               ))}
               <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 24 }}>
-                <button style={{ background: "rgba(42,43,124,0.00)", border: "1px solid var(--hairline)", color: "var(--graphite)", fontSize: 15, fontWeight: 500, padding: "12px", borderRadius: 999, cursor: "pointer" }}>
+                <button
+                  onClick={() => { setMobileOpen(false); toast("Sign in is coming soon.", { description: "Request early access below to be first in line." }) }}
+                  style={{ background: "rgba(42,43,124,0.00)", border: "1px solid var(--hairline)", color: "var(--graphite)", fontSize: 15, fontWeight: 500, padding: "12px", borderRadius: 999, cursor: "pointer" }}>
                   Sign in
                 </button>
                 <button onClick={() => handleLink("contact")}
@@ -1237,6 +1241,7 @@ function Pricing() {
 function CTABand() {
   const [form, setForm] = useState({ name: "", firm: "", email: "", message: "" })
   const [done, setDone] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const inputStyle: React.CSSProperties = {
     width: "100%", padding: "10px 14px", fontSize: 14, color: "#fff",
@@ -1245,8 +1250,28 @@ function CTABand() {
     fontFamily: "'Geist', sans-serif",
   } as React.CSSProperties
 
-  const handleSubmit = () => {
-    if (form.name && form.email) setDone(true)
+  const handleSubmit = async () => {
+    if (!form.name || !form.email) {
+      toast.error("Please fill in your name and email.")
+      return
+    }
+    setSubmitting(true)
+    try {
+      const body = new URLSearchParams({
+        "form-name": "contact",
+        name: form.name,
+        firm: form.firm,
+        email: form.email,
+        message: form.message,
+      })
+      const res = await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
+      if (!res.ok) throw new Error("submit failed")
+      setDone(true)
+    } catch {
+      toast.error("Something went wrong. Please try again.")
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -1341,9 +1366,10 @@ function CTABand() {
                       />
                       <motion.button
                         onClick={handleSubmit}
-                        style={{ background: "var(--amber)", color: "var(--graphite)", fontSize: 14, fontWeight: 600, padding: "13px", borderRadius: 999, border: "none", cursor: "pointer", marginTop: 4 }}
-                        whileHover={btnHover.amber as any} whileTap={{ scale: 0.97 }} transition={SPRING}>
-                        Send request
+                        disabled={submitting}
+                        style={{ background: "var(--amber)", color: "var(--graphite)", fontSize: 14, fontWeight: 600, padding: "13px", borderRadius: 999, border: "none", cursor: submitting ? "wait" : "pointer", marginTop: 4, opacity: submitting ? 0.7 : 1 }}
+                        whileHover={submitting ? {} : btnHover.amber as any} whileTap={submitting ? {} : { scale: 0.97 }} transition={SPRING}>
+                        {submitting ? "Sending…" : "Send request"}
                       </motion.button>
                     </div>
                     <p style={{ fontSize: 12, color: "rgba(255,255,255,0.26)", marginTop: 16, textAlign: "center" }}>
@@ -1393,6 +1419,7 @@ export default function App() {
   return (
     <div style={{ fontFamily: "'Geist', sans-serif", background: "#fff", minHeight: "100vh" }}>
       <InjectStyles />
+      <Toaster position="top-center" toastOptions={{ style: { fontFamily: "'Geist', sans-serif" } }} />
       <Nav />
       <main>
         <Hero />
