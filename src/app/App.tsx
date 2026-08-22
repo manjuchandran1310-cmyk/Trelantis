@@ -75,6 +75,8 @@ const InjectStyles = () => (
 
     .form-input:focus { outline: none; border-color: var(--ink) !important; box-shadow: 0 0 0 3px rgba(42,43,124,0.08); }
 
+    .hero-sub { white-space: nowrap; }
+    @media (max-width: 767px) { .hero-sub { white-space: normal; max-width: 320px; } }
     @media (min-width: 768px) { .mob-only { display: none !important; } }
     .nav-logo { height: 30px; }
     @media (min-width: 768px) { .nav-logo { height: 38px; } }
@@ -223,7 +225,7 @@ function CyclingHeadline({ fontSize }: { fontSize: string }) {
         )}
       </span>
       {/* Line 2 — always static, one step smaller */}
-      <span style={{ display: "block", fontSize: `calc(${fontSize} * 0.72)`, fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--graphite)", marginTop: 6 }}>
+      <span style={{ display: "block", fontSize: "clamp(25px, 4.8vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--graphite)", marginTop: 6, whiteSpace: "nowrap" }}>
         before every commitment.
       </span>
     </span>
@@ -605,7 +607,8 @@ function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.24, ease: EASE }}
-          style={{ fontSize: "clamp(15px, 3.8vw, 18px)", color: "var(--slate)", lineHeight: 1.6, marginTop: 24, textAlign: "center", maxWidth: 560, padding: "0 8px" }}>
+          className="hero-sub"
+          style={{ fontSize: "clamp(14px, 3.6vw, 18px)", color: "var(--slate)", lineHeight: 1.6, marginTop: 24, textAlign: "center", padding: "0 8px" }}>
           A structured view of where risk sits and where to build resilience into the terms.
         </motion.p>
 
